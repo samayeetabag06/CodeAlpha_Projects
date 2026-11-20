@@ -2,372 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Real-Time AI Object Detection & Tracking</title>
-  
-  <!-- Tailwind CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language Translator</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <!-- TensorFlow.js Core & COCO-SSD Pre-trained Model -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center p-4">
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
 
-  <!-- Header -->
-  <header class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between py-4 border-b border-slate-800 mb-6 gap-3">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-        <i class="fa-solid fa-crosshairs text-xl"></i>
-      </div>
-      <div>
-        <h1 class="text-xl font-bold tracking-tight">AI Vision: Object Detection & Tracking</h1>
-        <p class="text-xs text-slate-400">Pre-trained COCO-SSD Deep Learning Model + SORT-style Tracker</p>
-      </div>
-    </div>
-    <div id="modelStatus" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-medium">
-      <i class="fa-solid fa-circle-notch fa-spin"></i> Loading Pre-trained Model...
-    </div>
-  </header>
-
-  <!-- Main Grid -->
-  <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
+  <div class="bg-white shadow-xl rounded-2xl w-full max-w-4xl p-6 md:p-8 border border-slate-200">
     
-    <!-- Controls Sidebar -->
-    <div class="lg:col-span-1 bg-slate-800/60 backdrop-blur border border-slate-700/60 rounded-2xl p-5 flex flex-col gap-5 h-fit">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-        <i class="fa-solid fa-sliders text-indigo-400"></i> Controls
-      </h2>
-
-      <!-- Input Source Selector -->
-      <div class="space-y-2">
-        <label class="text-xs text-slate-300 font-medium">Video Source</label>
-        <button id="webcamBtn" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-medium transition flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
-          <i class="fa-solid fa-video"></i> Start Webcam
-        </button>
-        
-        <div class="relative flex py-1 items-center">
-          <div class="flex-grow border-t border-slate-700"></div>
-          <span class="flex-shrink mx-2 text-[10px] text-slate-500 uppercase">OR</span>
-          <div class="flex-grow border-t border-slate-700"></div>
-        </div>
-
-        <label class="w-full py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2 cursor-pointer border border-slate-600">
-          <i class="fa-solid fa-upload"></i> Upload Video File
-          <input type="file" id="videoFileInput" accept="video/*" class="hidden" />
-        </label>
-      </div>
-
-      <!-- Settings -->
-      <div class="space-y-4 pt-3 border-t border-slate-700/60">
-        <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-slate-300">Confidence Threshold</span>
-            <span id="confValue" class="text-indigo-400 font-semibold">50%</span>
-          </div>
-          <input id="confSlider" type="range" min="20" max="90" value="50" class="w-full accent-indigo-500 cursor-pointer" />
-        </div>
-
-        <div class="flex items-center justify-between text-xs">
-          <span class="text-slate-300">Show Trajectory Trails</span>
-          <input id="trailToggle" type="checkbox" checked class="w-4 h-4 accent-indigo-600 rounded cursor-pointer" />
-        </div>
-      </div>
-
-      <!-- HUD Metrics Dashboard -->
-      <div class="pt-3 border-t border-slate-700/60 space-y-2">
-        <h3 class="text-xs font-semibold uppercase text-slate-400">Live Statistics</h3>
-        <div class="grid grid-cols-2 gap-2 text-center">
-          <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-700">
-            <div id="fpsDisplay" class="text-lg font-bold text-emerald-400">0</div>
-            <div class="text-[10px] text-slate-400 uppercase">FPS</div>
-          </div>
-          <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-700">
-            <div id="trackerCount" class="text-lg font-bold text-indigo-400">0</div>
-            <div class="text-[10px] text-slate-400 uppercase">Active Tracks</div>
-          </div>
-        </div>
-      </div>
+    <!-- Header -->
+    <div class="mb-6 text-center">
+      <h1 class="text-3xl font-bold text-slate-800 flex items-center justify-center gap-2">
+        <i class="fa-solid font-sharp fa-language text-indigo-600"></i> Language Translator
+      </h1>
+      <p class="text-slate-500 text-sm mt-1">Translate text seamlessly across multiple languages</p>
     </div>
 
-    <!-- Video & Canvas Viewport -->
-    <div class="lg:col-span-3 bg-slate-950 rounded-2xl border border-slate-800 p-2 flex items-center justify-center relative overflow-hidden min-h-[420px] shadow-2xl">
-      <!-- Hidden Source Video Element -->
-      <video id="videoElement" class="hidden" playsinline muted loop></video>
-
-      <!-- Rendering Canvas Overlay -->
-      <canvas id="outputCanvas" class="w-full h-auto max-h-[600px] object-contain rounded-xl"></canvas>
-
-      <!-- Placeholder overlay when camera is off -->
-      <div id="placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 gap-3">
-        <i class="fa-solid fa-camera text-4xl text-slate-600"></i>
-        <p class="text-sm">Model ready. Start your webcam or upload a video file to begin tracking.</p>
+    <!-- Translation Container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Input Box -->
+      <div class="flex flex-col border border-slate-300 rounded-xl p-4 focus-within:ring-2 focus-within:ring-indigo-500 bg-slate-50">
+        <div class="flex justify-between items-center pb-2 mb-2 border-b border-slate-200">
+          <select id="fromLang" class="bg-transparent text-slate-700 font-semibold focus:outline-none cursor-pointer">
+            <!-- Populated via JS -->
+          </select>
+          <button id="clearBtn" title="Clear Text" class="text-slate-400 hover:text-red-500 transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <textarea id="inputText" rows="6" placeholder="Type text here..." 
+          class="w-full bg-transparent resize-none focus:outline-none text-slate-800 placeholder-slate-400"></textarea>
+        <div class="flex justify-between items-center pt-2 text-slate-400 text-sm">
+          <button id="inputSpeakBtn" title="Listen" class="hover:text-indigo-600 transition">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <span id="charCount">0 / 5000</span>
+        </div>
       </div>
+
+      <!-- Output Box -->
+      <div class="flex flex-col border border-slate-300 rounded-xl p-4 bg-slate-50">
+        <div class="flex justify-between items-center pb-2 mb-2 border-b border-slate-200">
+          <select id="toLang" class="bg-transparent text-slate-700 font-semibold focus:outline-none cursor-pointer">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+        <textarea id="outputText" rows="6" readonly placeholder="Translation will appear here..." 
+          class="w-full bg-transparent resize-none focus:outline-none text-slate-800 placeholder-slate-400"></textarea>
+        <div class="flex justify-end items-center gap-3 pt-2 text-slate-400 text-sm">
+          <button id="outputSpeakBtn" title="Listen Translation" class="hover:text-indigo-600 transition">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <button id="copyBtn" title="Copy Text" class="hover:text-indigo-600 transition">
+            <i class="fa-regular fa-copy"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Actions Area -->
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Swap Languages Button -->
+      <button id="swapBtn" class="flex items-center gap-2 text-slate-600 hover:text-indigo-600 font-medium px-4 py-2 rounded-lg border border-slate-300 hover:border-indigo-600 transition w-full sm:w-auto justify-center">
+        <i class="fa-solid fa-arrows-rotate"></i> Swap Languages
+      </button>
+
+      <!-- Translate Button -->
+      <button id="translateBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition duration-200 w-full sm:w-auto flex items-center justify-center gap-2">
+        <span>Translate</span>
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+
+    <!-- Toast Notification for Copying -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-2 rounded-lg text-sm shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none">
+      Copied to clipboard!
     </div>
 
   </div>
 
-  <!-- JavaScript Logic -->
-  <script>
-    // --- 1. SORT-Style Multi-Object Tracker (IoU + Centroid Matching) ---
-    class ObjectTracker {
-      constructor(maxLostFrames = 15, iouThreshold = 0.25) {
-        this.tracks = []; // Array of active tracks
-        this.nextId = 1;
-        this.maxLostFrames = maxLostFrames;
-        this.iouThreshold = iouThreshold;
-      }
-
-      // Calculate Intersection over Union (IoU)
-      calculateIoU(boxA, boxB) {
-        const xA = Math.max(boxA[0], boxB[0]);
-        const yA = Math.max(boxA[1], boxB[1]);
-        const xB = Math.min(boxA[0] + boxA[2], boxB[0] + boxB[2]);
-        const yB = Math.min(boxA[1] + boxA[3], boxB[1] + boxB[3]);
-
-        const interArea = Math.max(0, xB - xA) * Math.max(0, yB - yA);
-        const boxAArea = boxA[2] * boxA[3];
-        const boxBArea = boxB[2] * boxB[3];
-
-        return interArea / (boxAArea + boxBArea - interArea);
-      }
-
-      update(detections) {
-        const updatedTracks = [];
-        const unmatchedDetections = [...detections];
-
-        // 1. Match current tracks with new detections using IoU
-        for (const track of this.tracks) {
-          let bestIoU = 0;
-          let bestIdx = -1;
-
-          for (let i = 0; i < unmatchedDetections.length; i++) {
-            const det = unmatchedDetections[i];
-            if (det.class === track.class) {
-              const iou = this.calculateIoU(track.bbox, det.bbox);
-              if (iou > bestIoU) {
-                bestIoU = iou;
-                bestIdx = i;
-              }
-            }
-          }
-
-          if (bestIoU >= this.iouThreshold && bestIdx !== -1) {
-            const matched = unmatchedDetections.splice(bestIdx, 1)[0];
-            const centroid = [
-              matched.bbox[0] + matched.bbox[2] / 2,
-              matched.bbox[1] + matched.bbox[3] / 2
-            ];
-
-            track.bbox = matched.bbox;
-            track.score = matched.score;
-            track.lostFrames = 0;
-            track.history.push(centroid);
-            if (track.history.length > 25) track.history.shift(); // Keep trajectory trail length
-
-            updatedTracks.push(track);
-          } else {
-            // Track not seen in this frame
-            track.lostFrames += 1;
-            if (track.lostFrames <= this.maxLostFrames) {
-              updatedTracks.push(track);
-            }
-          }
-        }
-
-        // 2. Initialize new tracks for unmatched detections
-        for (const det of unmatchedDetections) {
-          const centroid = [
-            det.bbox[0] + det.bbox[2] / 2,
-            det.bbox[1] + det.bbox[3] / 2
-          ];
-          const color = `hsl(${(this.nextId * 67) % 360}, 85%, 60%)`;
-
-          updatedTracks.push({
-            id: this.nextId++,
-            class: det.class,
-            bbox: det.bbox,
-            score: det.score,
-            color: color,
-            history: [centroid],
-            lostFrames: 0
-          });
-        }
-
-        this.tracks = updatedTracks;
-        return this.tracks.filter(t => t.lostFrames === 0);
-      }
-    }
-
-    // --- 2. Application UI & Processing Loop ---
-    let model = null;
-    let isStreaming = false;
-    let tracker = new ObjectTracker();
-    let lastFrameTime = performance.now();
-    let frameCount = 0;
-    let fps = 0;
-
-    const video = document.getElementById("videoElement");
-    const canvas = document.getElementById("outputCanvas");
-    const ctx = canvas.getContext("2d");
-    const webcamBtn = document.getElementById("webcamBtn");
-    const videoFileInput = document.getElementById("videoFileInput");
-    const modelStatus = document.getElementById("modelStatus");
-    const confSlider = document.getElementById("confSlider");
-    const confValue = document.getElementById("confValue");
-    const trailToggle = document.getElementById("trailToggle");
-    const fpsDisplay = document.getElementById("fpsDisplay");
-    const trackerCount = document.getElementById("trackerCount");
-    const placeholder = document.getElementById("placeholder");
-
-    // Load pre-trained COCO-SSD Deep Learning Model
-    async function loadModel() {
-      try {
-        model = await cocoSsd.load();
-        modelStatus.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-medium";
-        modelStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Model Ready (COCO-SSD)';
-        webcamBtn.disabled = false;
-      } catch (err) {
-        modelStatus.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-xs font-medium";
-        modelStatus.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error loading model';
-        console.error(err);
-      }
-    }
-
-    // Start Webcam
-    async function startWebcam() {
-      if (video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-      }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 1280, height: 720 },
-          audio: false
-        });
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          video.play();
-          setupCanvas();
-          isStreaming = true;
-          placeholder.classList.add("hidden");
-          webcamBtn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop Webcam';
-          webcamBtn.classList.replace("bg-indigo-600", "bg-rose-600");
-          requestAnimationFrame(processFrame);
-        };
-      } catch (err) {
-        alert("Could not access webcam. Please verify permissions.");
-      }
-    }
-
-    // Handle Local Video File Upload
-    videoFileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        if (video.srcObject) {
-          video.srcObject.getTracks().forEach(track => track.stop());
-          video.srcObject = null;
-        }
-        video.src = URL.createObjectURL(file);
-        video.onloadedmetadata = () => {
-          video.play();
-          setupCanvas();
-          isStreaming = true;
-          placeholder.classList.add("hidden");
-          requestAnimationFrame(processFrame);
-        };
-      }
-    });
-
-    function setupCanvas() {
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
-    }
-
-    // Main Detection and Tracking Pipeline
-    async function processFrame() {
-      if (!isStreaming || video.paused || video.ended) return;
-
-      const now = performance.now();
-      frameCount++;
-      if (now - lastFrameTime >= 1000) {
-        fps = frameCount;
-        frameCount = 0;
-        lastFrameTime = now;
-        fpsDisplay.innerText = fps;
-      }
-
-      // 1. Draw raw video frame onto canvas
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      // 2. Perform Object Detection via Pre-trained Model
-      const minConfidence = confSlider.value / 100;
-      const predictions = await model.detect(video);
-      
-      const filteredDetections = predictions.filter(p => p.score >= minConfidence);
-
-      // 3. Update Tracker (Assign Persistent IDs)
-      const activeTracks = tracker.update(filteredDetections);
-      trackerCount.innerText = activeTracks.length;
-
-      // 4. Draw Bounding Boxes, Labels & Trajectories
-      for (const track of activeTracks) {
-        const [x, y, w, h] = track.bbox;
-
-        // Draw Historical Trajectory Trail
-        if (trailToggle.checked && track.history.length > 1) {
-          ctx.beginPath();
-          ctx.strokeStyle = track.color;
-          ctx.lineWidth = 3;
-          for (let i = 0; i < track.history.length; i++) {
-            const pt = track.history[i];
-            if (i === 0) ctx.moveTo(pt[0], pt[1]);
-            else ctx.lineTo(pt[0], pt[1]);
-          }
-          ctx.stroke();
-        }
-
-        // Draw Bounding Box
-        ctx.strokeStyle = track.color;
-        ctx.lineWidth = 3;
-        ctx.strokeRect(x, y, w, h);
-
-        // Draw Tracking Pill & Label (e.g. "ID: #1 | person 89%")
-        const labelText = `ID: #${track.id} ${track.class} ${(track.score * 100).toFixed(0)}%`;
-        ctx.font = "bold 13px sans-serif";
-        const textWidth = ctx.measureText(labelText).width;
-
-        ctx.fillStyle = track.color;
-        ctx.fillRect(x, Math.max(0, y - 24), textWidth + 12, 24);
-
-        ctx.fillStyle = "#000000";
-        ctx.fillText(labelText, x + 6, Math.max(16, y - 7));
-      }
-
-      requestAnimationFrame(processFrame);
-    }
-
-    // Event Listeners
-    confSlider.addEventListener("input", () => {
-      confValue.innerText = `${confSlider.value}%`;
-    });
-
-    webcamBtn.addEventListener("click", () => {
-      if (isStreaming && video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-        isStreaming = false;
-        placeholder.classList.remove("hidden");
-        webcamBtn.innerHTML = '<i class="fa-solid fa-video"></i> Start Webcam';
-        webcamBtn.classList.replace("bg-rose-600", "bg-indigo-600");
-      } else {
-        startWebcam();
-      }
-    });
-
-    // Initialize
-    loadModel();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
